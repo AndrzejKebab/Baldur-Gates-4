@@ -5,7 +5,7 @@ namespace GrzegorzGora.BaldurGate
 {
 	public class Character : MonoBehaviour
 	{
-		private CharacterData characterData;
+		public CharacterData characterData;
 		private bool canFollow;
 
 		public void Move(Vector2 position)

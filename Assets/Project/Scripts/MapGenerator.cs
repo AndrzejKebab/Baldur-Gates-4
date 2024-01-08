@@ -61,8 +61,8 @@ namespace GrzegorzGora.BaldurGate
 		[BurstCompile]
 		private bool Noise(byte x, byte z)
 		{
-			float _scale = 10;
-			float _sampleX = x / _scale; 
+			float _scale = 20;
+			float _sampleX = x / _scale - 1; 
 			float _sampleZ = z / _scale;
 			float2 _sampleXZ = new float2(_sampleX, _sampleZ);
 
