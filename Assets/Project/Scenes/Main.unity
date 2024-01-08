@@ -517,9 +517,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floor: {fileID: 1623382313429877031, guid: f59cfc9a49aaf294cb485ed84eb8bbb6, type: 3}
   wall: {fileID: 167322757726342132, guid: bd967f45ace77d34badec34d5c5789f8, type: 3}
-  gridSize: 50
   floorMaterial: {fileID: 2100000, guid: 6a884947f7e4b7d41a450cc7ca8a1d04, type: 2}
   wallMaterial: {fileID: 2100000, guid: 870fd781754f5174cb93d1865ddc6908, type: 2}
+  mapSize: 50
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
