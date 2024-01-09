@@ -9,7 +9,14 @@ namespace GrzegorzGora.BaldurGate
 		private List<Character> selectedCharacters;
 		private List<Character> allCharacters;
 
+		[SerializeField] private GameObject characterPortraitPrefab;
+		private GameObject characterPortraitContent;
 		public CharacterData[] CharacterDatas;
+
+		private void Awake()
+		{
+			characterPortraitContent = GameObject.Find("Canvas/CharacterPortraits/Content");
+		}
 
 		[ContextMenu("Create")]
 		public void Test()
@@ -33,6 +40,11 @@ namespace GrzegorzGora.BaldurGate
 				var _newCharacter = new GameObject();
 				_newCharacter.AddComponent<Character>().characterData = characterData;
 				_newCharacter.transform.position = _safeSpawnPlace;
+				CharacterPortrait _newCharacterPortrait = Instantiate(characterPortraitPrefab, characterPortraitContent.transform).GetComponentInChildren<CharacterPortrait>();
+				_newCharacterPortrait.Character = _newCharacter.GetComponent<Character>();
+				_newCharacterPortrait.SetPortrait();
+				_newCharacterPortrait.CharacterSelect += SelectCharacters;
+				_newCharacterPortrait.CharacterDeselect += DeselectCharacters;
 			}
 		}
 
@@ -49,16 +61,16 @@ namespace GrzegorzGora.BaldurGate
 				}
 			}
 
-			Debug.LogError("Safe Place not found! Returning default!");
+			Debug.LogWarning("Safe Place not found! Returning default!");
 			return default;
 		}
 
-		public List<Character> SelectCharacters()
+		public void SelectCharacters(Character character)
 		{
 			throw new NotImplementedException();
 		}
 
-		public void DeselectCharacters()
+		public void DeselectCharacters(Character character)
 		{
 			throw new NotImplementedException();
 		}

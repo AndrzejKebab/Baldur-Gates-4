@@ -6,7 +6,7 @@ namespace GrzegorzGora.BaldurGate
 	public class Character : MonoBehaviour
 	{
 		public CharacterData characterData;
-		private bool canFollow;
+		private bool canFollow = true;
 
 		public void Move(Vector2 position)
 		{
@@ -17,5 +17,12 @@ namespace GrzegorzGora.BaldurGate
 		{
 			throw new NotImplementedException();
 		}
+
+		public void ChangeFollow()
+		{
+			canFollow ^= true;
+		}
+
+		public bool GetFollow() => canFollow;
 	}
 }
