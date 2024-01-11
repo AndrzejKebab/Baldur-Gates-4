@@ -5,7 +5,7 @@ using UnityEngine;
 namespace GrzegorzGora.BaldurGate
 {
 	[BurstCompile(CompileSynchronously = true)]
-	public class MapGenerator : MonoBehaviour
+	public class MapGenerator : MonoBehaviour, IDataPersistence
 	{
 		[SerializeField] private GameObject floor;
 		[SerializeField] private GameObject wall;
@@ -76,6 +76,16 @@ namespace GrzegorzGora.BaldurGate
 			{
 				return false;
 			}
+		}
+
+		public void SaveGame(GameData gameData)
+		{
+			gameData.MapSize = mapSize;
+		}
+
+		public void LoadGame(GameData gameData)
+		{
+			mapSize = gameData.MapSize;
 		}
 	}
 }

@@ -1,9 +1,17 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace GrzegorzGora.BaldurGate
 {
 	public class GameData
 	{
-		public List<CharacterData> characterDatas = new List<CharacterData>();
+		public byte MapSize;
+		public Dictionary<string, CharacterData> CharacterDatas;
+
+		public GameData()
+		{
+			MapSize = (byte)Random.Range(50, 255);
+			CharacterDatas = new Dictionary<string, CharacterData>();
+		}
 	}
 }

@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace GrzegorzGora.BaldurGate
 {
-	public class CharacterManager : MonoBehaviour
+	public class CharacterManager : MonoBehaviour, IDataPersistence
 	{
-		private List<Character> selectedCharacters;
-		private List<Character> allCharacters;
+		private List<Character> selectedCharacters = new();
+		private List<Character> allCharacters = new();
 
 		[SerializeField] private GameObject characterPortraitPrefab;
 		private GameObject characterPortraitContent;
@@ -37,9 +38,10 @@ namespace GrzegorzGora.BaldurGate
 
 			foreach (CharacterData characterData in characterDatas)
 			{
-				var _newCharacter = new GameObject();
-				_newCharacter.AddComponent<Character>().characterData = characterData;
+				Character _newCharacter = new GameObject().AddComponent<Character>();
+				_newCharacter.characterData = characterData;
 				_newCharacter.transform.position = _safeSpawnPlace;
+				allCharacters.Add(_newCharacter);
 				CharacterPortrait _newCharacterPortrait = Instantiate(characterPortraitPrefab, characterPortraitContent.transform).GetComponentInChildren<CharacterPortrait>();
 				_newCharacterPortrait.Character = _newCharacter.GetComponent<Character>();
 				_newCharacterPortrait.SetPortrait();
@@ -73,6 +75,26 @@ namespace GrzegorzGora.BaldurGate
 		public void DeselectCharacters(Character character)
 		{
 			throw new NotImplementedException();
+		}
+
+		public void SaveGame(GameData gameData)
+		{
+			foreach (var character in allCharacters)
+			{
+				var _characterData = character.characterData;
+				if (gameData.CharacterDatas.ContainsKey(_characterData.Id))
+				{
+					gameData.CharacterDatas.Remove(_characterData.Id);
+				}
+				gameData.CharacterDatas.Add(_characterData.Id, _characterData);
+			}
+		}
+
+		public void LoadGame(GameData gameData)
+		{
+			CharacterData[] _characterDatas = gameData.CharacterDatas.Values.ToArray();
+
+			CreateCharacters(_characterDatas);
 		}
 	}
 }
