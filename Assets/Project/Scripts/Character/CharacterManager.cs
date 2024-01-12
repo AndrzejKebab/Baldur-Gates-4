@@ -9,14 +9,20 @@ namespace GrzegorzGora.BaldurGate
 	{
 		private List<Character> selectedCharacters = new();
 		private List<Character> allCharacters = new();
+		private List<CharacterPortrait> charactersPortraits = new();
 
 		[SerializeField] private GameObject characterPortraitPrefab;
-		private GameObject characterPortraitContent;
+		[SerializeField] private GameObject characterPortraitContent;
+		[SerializeField] private bool[,] mapGrid;
 		public CharacterData[] CharacterDatas;
 
-		private void Awake()
+		private void OnDestroy()
 		{
-			characterPortraitContent = GameObject.Find("Canvas/CharacterPortraits/Content");
+			foreach (var characterPortrait in charactersPortraits)
+			{
+				characterPortrait.CharacterSelect -= SelectCharacters;
+				characterPortrait.CharacterSelect -= DeselectCharacters;
+			}
 		}
 
 		[ContextMenu("Create")]
@@ -27,14 +33,13 @@ namespace GrzegorzGora.BaldurGate
 
 		public void CreateCharacters(params CharacterData[] characterDatas)
 		{
-			var _mapGrid = GameObject.Find("Map").GetComponent<MapGenerator>().MapGrid;
-			if (_mapGrid == null)
+			if (mapGrid == null)
 			{
 				Debug.LogError("Map or Map Generator not Found!");
 				return;
 			}
 
-			var _safeSpawnPlace = FindSafePlaceToSpawn(_mapGrid);
+			var _safeSpawnPlace = FindSafePlaceToSpawn(mapGrid);
 
 			foreach (CharacterData characterData in characterDatas)
 			{
@@ -43,6 +48,7 @@ namespace GrzegorzGora.BaldurGate
 				_newCharacter.transform.position = _safeSpawnPlace;
 				allCharacters.Add(_newCharacter);
 				CharacterPortrait _newCharacterPortrait = Instantiate(characterPortraitPrefab, characterPortraitContent.transform).GetComponentInChildren<CharacterPortrait>();
+				charactersPortraits.Add(_newCharacterPortrait);
 				_newCharacterPortrait.Character = _newCharacter.GetComponent<Character>();
 				_newCharacterPortrait.SetPortrait();
 				_newCharacterPortrait.CharacterSelect += SelectCharacters;

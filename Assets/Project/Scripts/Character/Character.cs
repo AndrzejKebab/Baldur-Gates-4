@@ -7,6 +7,17 @@ namespace GrzegorzGora.BaldurGate
 	{
 		public CharacterData characterData;
 		private bool canFollow = true;
+		public bool GetFollow() => canFollow;
+
+		private void OnEnable()
+		{
+			InputManager.Instance.FollowClick += ChangeFollow;
+		}
+
+		private void OnDisable()
+		{
+			InputManager.Instance.FollowClick -= ChangeFollow;
+		}
 
 		public void Move(Vector2 position)
 		{
@@ -23,6 +34,5 @@ namespace GrzegorzGora.BaldurGate
 			canFollow ^= true;
 		}
 
-		public bool GetFollow() => canFollow;
 	}
 }

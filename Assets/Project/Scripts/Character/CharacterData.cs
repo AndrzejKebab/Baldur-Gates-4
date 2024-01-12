@@ -15,5 +15,13 @@ namespace GrzegorzGora.BaldurGate
 		{
 			Id = System.Guid.NewGuid().ToString();
 		}
+
+		[ContextMenu("Randomize Values")]
+		private void RandomizeValues()
+		{
+			MoveSpeed = Random.Range(8f, 16f);
+			TurnSpeed = Random.Range(3f, 9f);
+			Stamina = Random.Range(5f, 15f);
+		}
 	}
 }

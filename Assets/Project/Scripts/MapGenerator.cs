@@ -12,12 +12,8 @@ namespace GrzegorzGora.BaldurGate
 		[SerializeField] private Material floorMaterial;
 		[SerializeField] private Material wallMaterial;
 		[SerializeField] private byte mapSize;
-		public bool[,] MapGrid;
-
-		private void Awake()
-		{
-			MapGrid = new bool[mapSize, mapSize];	
-		}
+		private bool[,] mapGrid;
+		public bool[,] MapGrid { get { return mapGrid; } }
 
 		void Start()
 		{
@@ -26,11 +22,13 @@ namespace GrzegorzGora.BaldurGate
 
 		private void InitializeMapGrid()
 		{
+			mapGrid = new bool[mapSize, mapSize];
+
 			for (byte x = 0; x < mapSize; x++)
 			{
 				for (byte z = 0; z < mapSize; z++)
 				{
-					MapGrid[x, z] = Noise(x, z);
+					mapGrid[x, z] = Noise(x, z);
 				}
 			}
 
@@ -44,7 +42,7 @@ namespace GrzegorzGora.BaldurGate
 				for (byte z = 0; z < mapSize; z++)
 				{
 					GameObject _object;
-					if (MapGrid[x, z])
+					if (mapGrid[x, z])
 					{
 						_object = Instantiate(wall, new Vector3(x, 0, z), Quaternion.identity, transform);
 					}
