@@ -6,7 +6,7 @@
             "id": "334a3e8a-811a-46f1-8cbe-56f13d85caae",
             "actions": [
                 {
-                    "name": "Select",
+                    "name": "CursorPosition",
                     "type": "Value",
                     "id": "feed4566-58ae-4796-a13c-f6fe03b17522",
                     "expectedControlType": "Vector2",
@@ -41,7 +41,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "Select",
+                    "action": "CursorPosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -52,7 +52,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse;Touch",
-                    "action": "Select",
+                    "action": "CursorPosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -63,7 +63,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Joystick",
-                    "action": "Select",
+                    "action": "CursorPosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

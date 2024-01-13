@@ -6,6 +6,7 @@ namespace GrzegorzGora.BaldurGate
 {
 	public class Character : MonoBehaviour
 	{
+		[SerializeField] private GameObject selectedIndicator; 
 		private CharacterData characterData;
 		public CharacterData CharacterData { get { return characterData; } set { if (characterData == null) characterData = value; } }
 		private bool canFollow = true;
@@ -13,11 +14,17 @@ namespace GrzegorzGora.BaldurGate
 		private void OnEnable()
 		{
 			InputManager.Instance.FollowClick += ChangeFollow;
+			selectedIndicator.SetActive(false);
 		}
 
 		private void OnDisable()
 		{
 			InputManager.Instance.FollowClick -= ChangeFollow;
+		}
+
+		public void ChangeSelect(bool selected)
+		{
+			selectedIndicator.SetActive(selected);
 		}
 
 		public void Move(Vector2 position)

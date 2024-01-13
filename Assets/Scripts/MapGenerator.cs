@@ -10,11 +10,12 @@ namespace GrzegorzGora.BaldurGate
 		[Header("Map Prefabs")]
 		[SerializeField] private GameObject floor;
 		[SerializeField] private GameObject wall;
-		[SerializeField] private Material floorMaterial;
-		[SerializeField] private Material wallMaterial;
 		[Header("Map settings")]
+		[Range(50, 200)]
 		[SerializeField] private byte mapSize;
-		[SerializeField] private byte noiseScale;
+		[Range(10, 20)]
+		[SerializeField] private float noiseScale;
+		[Range(0.15f, 0.5f)]
 		[SerializeField] private float noiseMinimumThreshold;
 		[SerializeField] private Vector2 noiseOffset;
 
@@ -23,7 +24,7 @@ namespace GrzegorzGora.BaldurGate
 
 		void Start()
 		{
-			InitializeMapGrid();
+			//InitializeMapGrid();
 		}
 
 		private void InitializeMapGrid()
@@ -65,9 +66,9 @@ namespace GrzegorzGora.BaldurGate
 		[BurstCompile]
 		private bool Noise(byte x, byte z)
 		{
-			float _sampleX = x / noiseScale + noiseOffset.x; 
-			float _sampleZ = z / noiseScale + noiseOffset.y;
-			float2 _sampleXZ = new float2(_sampleX, _sampleZ);
+			float _sampleX = (x / noiseScale) + noiseOffset.x; 
+			float _sampleZ = (z / noiseScale) + noiseOffset.y;
+			float2 _sampleXZ = new(_sampleX, _sampleZ);
 
 			var _noise = noise.snoise(_sampleXZ);
 			return _noise >= noiseMinimumThreshold;
@@ -93,11 +94,18 @@ namespace GrzegorzGora.BaldurGate
 		public void SaveGame(GameData gameData)
 		{
 			gameData.MapSize = mapSize;
+			gameData.NoiseScale = noiseScale;
+			gameData.NoiseMinimumThreshold = noiseMinimumThreshold;
+			gameData.NoiseOffset = noiseOffset;
 		}
 
 		public void LoadGame(GameData gameData)
 		{
 			mapSize = gameData.MapSize;
+			noiseScale = gameData.NoiseScale;
+			noiseMinimumThreshold = gameData.NoiseMinimumThreshold;
+			noiseOffset = gameData.NoiseOffset;
+			InitializeMapGrid();
 		}
 	}
 }
