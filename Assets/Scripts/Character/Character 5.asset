@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42b16023c28cb4f47998365a90bf8727, type: 3}
-  m_Name: Character 4
+  m_Name: Character 5
   m_EditorClassIdentifier: 
-  Id: 2ce67a6e-b27e-4d2e-b1a4-fe0ab5f56407
-  MoveSpeed: 10.879326
-  TurnSpeed: 6.712736
-  Stamina: 13.560527
+  Id: 52a9740e-e4ae-4091-a8a0-5d8ef5e8fc7e
+  MoveSpeed: 13.255324
+  TurnSpeed: 3.5050964
+  Stamina: 6.242881

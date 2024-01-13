@@ -6,9 +6,21 @@ namespace GrzegorzGora.BaldurGate
 	public class CharacterData : ScriptableObject
 	{
 		public string Id;
+		[Range(8f, 16f)]
 		public float MoveSpeed;
+		[Range(3f, 9f)]
 		public float TurnSpeed;
+		[Range(5f, 15f)]
 		public float Stamina;
+
+		private void OnValidate()
+		{
+			if (string.IsNullOrWhiteSpace(Id))
+			{
+				GenerateGuid();
+				RandomizeValues();
+			}
+		}
 
 		[ContextMenu("Generate Id")]
 		private void GenerateGuid()

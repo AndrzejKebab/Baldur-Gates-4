@@ -1,14 +1,15 @@
 using System;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 namespace GrzegorzGora.BaldurGate
 {
 	public class Character : MonoBehaviour
 	{
-		public CharacterData characterData;
+		private CharacterData characterData;
+		public CharacterData CharacterData { get { return characterData; } set { if (characterData == null) characterData = value; } }
 		private bool canFollow = true;
 		public bool GetFollow() => canFollow;
-
 		private void OnEnable()
 		{
 			InputManager.Instance.FollowClick += ChangeFollow;

@@ -644,9 +644,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterPortraitPrefab: {fileID: 8951081165789325458, guid: 96242f08bd5a2f546856bb524f0fbe06,
     type: 3}
+  characterPortraitContent: {fileID: 515184965}
+  mapGenerator: {fileID: 689708087}
   CharacterDatas:
   - {fileID: 11400000, guid: 5da41b92772feb941a61c51af3879d5b, type: 2}
   - {fileID: 11400000, guid: 71bddb13e1852134299cf9693006dbc5, type: 2}
+  - {fileID: 11400000, guid: 65eddc922bcf16b4d9dd371071675f10, type: 2}
+  - {fileID: 11400000, guid: a5807b2e168ea3848819849bcbb6bec2, type: 2}
+  - {fileID: 11400000, guid: 6947810b158db654a991f0c159f14660, type: 2}
 --- !u!4 &533064232
 Transform:
   m_ObjectHideFlags: 0

@@ -7,11 +7,17 @@ namespace GrzegorzGora.BaldurGate
 	[BurstCompile(CompileSynchronously = true)]
 	public class MapGenerator : MonoBehaviour, IDataPersistence
 	{
+		[Header("Map Prefabs")]
 		[SerializeField] private GameObject floor;
 		[SerializeField] private GameObject wall;
 		[SerializeField] private Material floorMaterial;
 		[SerializeField] private Material wallMaterial;
+		[Header("Map settings")]
 		[SerializeField] private byte mapSize;
+		[SerializeField] private byte noiseScale;
+		[SerializeField] private float noiseMinimumThreshold;
+		[SerializeField] private Vector2 noiseOffset;
+
 		private bool[,] mapGrid;
 		public bool[,] MapGrid { get { return mapGrid; } }
 
@@ -59,21 +65,29 @@ namespace GrzegorzGora.BaldurGate
 		[BurstCompile]
 		private bool Noise(byte x, byte z)
 		{
-			float _scale = 20;
-			float _sampleX = x / _scale - 1; 
-			float _sampleZ = z / _scale;
+			float _sampleX = x / noiseScale + noiseOffset.x; 
+			float _sampleZ = z / noiseScale + noiseOffset.y;
 			float2 _sampleXZ = new float2(_sampleX, _sampleZ);
 
 			var _noise = noise.snoise(_sampleXZ);
-			
-			if(_noise >= 0.25f)
+			return _noise >= noiseMinimumThreshold;
+		}
+
+		public Vector3 FindSafePlaceToSpawn()
+		{
+			for (byte x = 0; x < mapGrid.GetLength(0); x++)
 			{
-				return true;
+				for (byte z = 0; z < mapGrid.GetLength(1); z++)
+				{
+					if (!mapGrid[x, z])
+					{
+						return new Vector3(x, 1, z);
+					}
+				}
 			}
-			else
-			{
-				return false;
-			}
+
+			Debug.LogWarning("Safe Place not found! Returning default!");
+			return default;
 		}
 
 		public void SaveGame(GameData gameData)

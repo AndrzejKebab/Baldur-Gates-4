@@ -19,7 +19,7 @@ namespace PatataStudio.Utils
 					if(instance == null)
 					{
 						GameObject _gameObject = new GameObject();
-						_gameObject.name = typeof(T).Name + "Auto-Created";
+						_gameObject.name = typeof(T).Name + " Auto-Created";
 						instance = _gameObject.AddComponent<T>();
 					}
 				}
