@@ -23,9 +23,9 @@ namespace GrzegorzGora.BaldurGate
 				try
 				{
 					string _dataToLoad = "";
-					using (FileStream stream = new FileStream(fullPath, FileMode.Open))
+					using (FileStream stream = new(fullPath, FileMode.Open))
 					{
-						using (StreamReader reader = new StreamReader(stream))
+						using (StreamReader reader = new(stream))
 						{
 							_dataToLoad = reader.ReadToEnd();
 						}
@@ -49,9 +49,9 @@ namespace GrzegorzGora.BaldurGate
 			{
 				Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
 
-				using (FileStream stream = new FileStream(fullPath, FileMode.Create))
+				using (FileStream stream = new(fullPath, FileMode.Create))
 				{
-					using (StreamWriter writer = new StreamWriter(stream))
+					using (StreamWriter writer = new(stream))
 					{
 						writer.Write(_dataToStore);
 					}

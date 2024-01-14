@@ -18,23 +18,45 @@ namespace GrzegorzGora.BaldurGate
 		public void AssignCharacter(Character character, Action<Character> onCharacterSelect, Action<Character> onCharacterDeselect)
 		{
 			this.character = character;
+
+			CharacterSelect -= onCharacterSelect;
+			CharacterDeselect -= onCharacterDeselect;
+
 			CharacterSelect += onCharacterSelect;
 			CharacterDeselect += onCharacterDeselect;
+
 			UpdatePortrait();
 		}
 		private void UpdatePortrait()
 		{			
-			followIndicator.color = character.GetFollow() ? Color.green : Color.red;
+			portraitImage.color = character.IsSelected ? Color.white : Color.gray;
+			followIndicator.color = character.GetFollow ? Color.green : Color.red;
 		}
 
-		public void OnCharacterSelected()
+		public void PortraitButtonClick()
 		{
+			if (!character.IsSelected)
+			{
+				OnCharacterSelected();
+			}
+			else
+			{
+				OnCharacterDeselected();
+			}			
+		}
+
+		private void OnCharacterSelected()
+		{
+			Debug.Log("Select Event: " + character.CharacterData.name );
 			CharacterSelect?.Invoke(character);
+			UpdatePortrait();
 		}
 
-		public void OnCharacterDeselected()
+		private void OnCharacterDeselected()
 		{
+			Debug.Log("Deselect Event: " + character.CharacterData.name);
 			CharacterDeselect?.Invoke(character);
+			UpdatePortrait();
 		}
 	}
 }

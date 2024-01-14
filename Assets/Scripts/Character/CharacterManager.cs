@@ -1,28 +1,36 @@
+using PatataStudio.Utils;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace GrzegorzGora.BaldurGate
 {
-	public class CharacterManager : MonoBehaviour, IDataPersistence
+	public class CharacterManager : PersistentSingleton<CharacterManager>, IDataPersistence
 	{
 		private List<Character> selectedCharacters = new();
 		private List<Character> allCharacters = new();
 		private List<CharacterPortrait> charactersPortraits = new();
-
+		[Header("Characters Settings")]
 		[SerializeField] private Character characterPrefab;
 		[SerializeField] private CharacterPortrait characterPortraitPrefab;
 		[SerializeField] private RectTransform characterPortraitContent;
 		[SerializeField] private CharacterData[] CharacterDatas;
-
+		[Header("Map Generator Ref")]
 		[SerializeField] private MapGenerator mapGenerator;
+
+		private void Start()
+		{
+			for (byte i = 0; i < (byte)Random.Range(1, CharacterDatas.Length + 1); i++)
+			{
+				CreateCharacters(CharacterDatas[i]);
+			}
+		}
 
 		private void OnDestroy()
 		{
 			foreach (var characterPortrait in charactersPortraits)
 			{
 				characterPortrait.CharacterSelect -= SelectCharacter;
-				characterPortrait.CharacterSelect -= DeselectCharacter;
+				characterPortrait.CharacterDeselect -= DeselectCharacter;
 			}
 		}
 
@@ -41,6 +49,7 @@ namespace GrzegorzGora.BaldurGate
 			foreach (CharacterData characterData in characterDatas)
 			{
 				Character _newCharacter = Instantiate(characterPrefab, _safeSpawnPlace, Quaternion.identity);
+				_newCharacter.CharacterData = characterData;
 				_newCharacter.name = characterData.name;
 				allCharacters.Add(_newCharacter);
 				CharacterPortrait _newCharacterPortrait = Instantiate(characterPortraitPrefab, characterPortraitContent.transform);
@@ -54,16 +63,39 @@ namespace GrzegorzGora.BaldurGate
 		{
 			selectedCharacters.Add(character);
 			character.ChangeSelect(true);
+			Debug.Log($"Selected:{character.CharacterData.name}");
 		}
 
 		public void DeselectCharacter(Character character)
 		{
 			selectedCharacters.Remove(character);
 			character.ChangeSelect(false);
+			Debug.Log($"Deselected:{character.CharacterData.name}");
 		}
 
 		public void DeselectAll()
 		{
+			foreach(Character character in selectedCharacters)
+			{
+				character.ChangeSelect(false);
+			}
+			selectedCharacters.Clear();
+		}
+
+		private void DestroyAllCharacters()
+		{
+			foreach(var character in allCharacters)
+			{
+				Destroy(character.gameObject);
+			}
+			foreach(var portrait in charactersPortraits)
+			{
+				portrait.CharacterSelect -= SelectCharacter;
+				portrait.CharacterDeselect -= DeselectCharacter;
+				Destroy(portrait.gameObject);
+			}
+			charactersPortraits.Clear();
+			allCharacters.Clear();
 			selectedCharacters.Clear();
 		}
 
@@ -85,6 +117,9 @@ namespace GrzegorzGora.BaldurGate
 		{
 			CharacterData[] _characterDatas = gameData.CharacterDatas.ToArray();
 			if (_characterDatas.IsNullOrEmpty()) return;
+			mapGenerator.ClearMap();
+			mapGenerator.InitializeMapGrid();
+			DestroyAllCharacters();
 			CreateCharacters(_characterDatas);
 		}
 		#endregion

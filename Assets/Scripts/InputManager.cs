@@ -7,10 +7,10 @@ using static GrzegorzGora.BaldurGate.PlayerInputActions;
 namespace GrzegorzGora.BaldurGate
 {
 	[RequireComponent(typeof(PlayerInput))]
-	public class InputManager : Singleton<InputManager>, IPlayerActions
+	public class InputManager : PersistentSingleton<InputManager>, IPlayerActions
 	{
 		private PlayerInputActions playerInput;
-		public Vector2 MousePos;
+		public Vector2 MousePos { get; private set; }
 		public event Action LeftMouseClick;
 		public event Action FollowClick;
 

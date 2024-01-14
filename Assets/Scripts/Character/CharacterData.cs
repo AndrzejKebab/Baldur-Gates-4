@@ -17,8 +17,15 @@ namespace GrzegorzGora.BaldurGate
 		{
 			if (string.IsNullOrWhiteSpace(Id))
 			{
+				GenerateGuid();
 				RandomizeValues();
 			}
+		}
+
+		[ContextMenu("Generate Id")]
+		private void GenerateGuid()
+		{
+			Id = System.Guid.NewGuid().ToString();
 		}
 
 		[ContextMenu("Randomize Values")]

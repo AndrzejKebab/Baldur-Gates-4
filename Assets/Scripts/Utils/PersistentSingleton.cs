@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace PatataStudio.Utils
 {
-	public class Singleton<T> : MonoBehaviour where T : Component
+	public class PersistentSingleton<T> : MonoBehaviour where T : Component
 	{
 		protected static T instance;
 
+		[Header("Singleton Settings")]
+		public bool AutoUnparentOnAwake = true;
 		public static bool HasInstance => instance != null;
 		public static T TryGetInstance() => HasInstance ? instance : null;
 
@@ -30,14 +32,32 @@ namespace PatataStudio.Utils
 		/// <summary>
 		/// Make sure to call base.Awake() in override if you need awake.
 		/// </summary>
-		protected virtual void Awake() => InitializeSingleton();
-
+		protected virtual void Awake()
+		{
+			InitializeSingleton();
+		}
 
 		protected virtual void InitializeSingleton()
 		{
 			if (!Application.isPlaying) return;
 
-			instance = this as T;
+			if (AutoUnparentOnAwake)
+			{
+				transform.SetParent(null);
+			}
+
+			if (instance == null)
+			{
+				instance = this as T;
+				DontDestroyOnLoad(gameObject);
+			}
+			else
+			{
+				if (instance != this)
+				{
+					Destroy(gameObject);
+				}
+			}
 		}
 	}
 }

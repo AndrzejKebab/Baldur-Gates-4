@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 namespace GrzegorzGora.BaldurGate
 {
-	public class DataPersistenceManager : Singleton<DataPersistenceManager>
+	public class DataPersistenceManager : PersistentSingleton<DataPersistenceManager>
 	{
 		[SerializeField] private string fileName;
 
@@ -26,10 +26,9 @@ namespace GrzegorzGora.BaldurGate
 			LoadGame();
 		}
 
-		protected override void Awake() => fileDataHandler = new FileDataHandler(Application.dataPath, fileName);
-
-		private void Start()
+		protected override void Awake()
 		{
+			fileDataHandler = new FileDataHandler(Application.dataPath, fileName);
 			gameData = new GameData();
 		}
 
@@ -55,7 +54,6 @@ namespace GrzegorzGora.BaldurGate
 			if (gameData == null)
 			{
 				Debug.LogWarning("No data found. Data can't be loaded.");
-				return;
 			}
 
 			foreach (var dataPersistenceObject in dataPersistencesObjects)

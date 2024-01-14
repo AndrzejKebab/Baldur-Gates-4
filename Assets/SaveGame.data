@@ -1,12 +1,16 @@
 {
-    "MapSize": 50,
-    "NoiseScale": 15,
-    "NoiseMinimumThreshold": 0.25,
+    "MapSize": 180,
+    "NoiseScale": 15.7604,
+    "NoiseMinimumThreshold": 0.4282397,
     "NoiseOffset": {
-        "x": 0,
-        "y": 0
+        "x": -36,
+        "y": 13
     },
     "CharacterDatas": [
-        "GlobalObjectId_V1-0-00000000000000000000000000000000-0-0"
+        "GlobalObjectId_V1-3-5da41b92772feb941a61c51af3879d5b-11400000-0",
+        "GlobalObjectId_V1-3-71bddb13e1852134299cf9693006dbc5-11400000-0",
+        "GlobalObjectId_V1-3-65eddc922bcf16b4d9dd371071675f10-11400000-0",
+        "GlobalObjectId_V1-3-a5807b2e168ea3848819849bcbb6bec2-11400000-0",
+        "GlobalObjectId_V1-3-6947810b158db654a991f0c159f14660-11400000-0"
     ]
 }
