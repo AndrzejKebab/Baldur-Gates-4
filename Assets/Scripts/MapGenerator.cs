@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using Unity.Burst;
 using Unity.Mathematics;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace GrzegorzGora.BaldurGate
 		[SerializeField] private GameObject floor;
 		[SerializeField] private GameObject wall;
 		[Header("Map settings")]
+		[SerializeField] private Transform content;
 		[Range(50, 200)]
 		[SerializeField] private byte mapSize;
 		[Range(10, 20)]
@@ -21,12 +23,14 @@ namespace GrzegorzGora.BaldurGate
 		[SerializeField] private float noiseMinimumThreshold;
 		[SerializeField] private Vector2 noiseOffset;
 
+		private NavMeshSurface navMeshSurface;
 		private bool[,] mapGrid;
 		public bool[,] MapGrid { get { return mapGrid; } }
 		private List<GameObject> mapObjects = new List<GameObject>();
 
 		private void Awake()
 		{
+			navMeshSurface = GetComponent<NavMeshSurface>();
 			mapSize = (byte)Random.Range(50, 200);
 			noiseScale = Random.Range(10f, 20f);
 			noiseMinimumThreshold = Random.Range(0.15f, 0.5f);
@@ -58,17 +62,18 @@ namespace GrzegorzGora.BaldurGate
 				{					
 					if (mapGrid[x, z])
 					{
-						_object = Instantiate(wall, new Vector3(x, 0, z), Quaternion.identity, transform);						
+						_object = Instantiate(wall, new Vector3(x, 0, z), Quaternion.identity, content);						
 					}
 					else
 					{
-						_object = Instantiate(floor, new Vector3(x, -0.5f, z), Quaternion.identity, transform);
+						_object = Instantiate(floor, new Vector3(x, -0.5f, z), Quaternion.identity, content);
 					}
 
 					_object.name = $"X: {x}, Z: {z}";
 					mapObjects.Add(_object);
 				}
 			}
+			navMeshSurface.BuildNavMesh();
 		}
 
 		public void ClearMap()

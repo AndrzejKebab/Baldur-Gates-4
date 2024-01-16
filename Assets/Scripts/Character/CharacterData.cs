@@ -6,9 +6,9 @@ namespace GrzegorzGora.BaldurGate
 	public class CharacterData : ScriptableObject
 	{
 		public string Id;
-		[Range(8f, 16f)]
+		[Range(1f, 8f)]
 		public float MoveSpeed;
-		[Range(3f, 9f)]
+		[Range(60f, 180f)]
 		public float TurnSpeed;
 		[Range(5f, 15f)]
 		public float Stamina;
@@ -31,8 +31,8 @@ namespace GrzegorzGora.BaldurGate
 		[ContextMenu("Randomize Values")]
 		private void RandomizeValues()
 		{
-			MoveSpeed = Random.Range(8f, 16f);
-			TurnSpeed = Random.Range(3f, 9f);
+			MoveSpeed = Random.Range(1f, 8f);
+			TurnSpeed = Random.Range(60f, 180f);
 			Stamina = Random.Range(5f, 15f);
 		}
 	}

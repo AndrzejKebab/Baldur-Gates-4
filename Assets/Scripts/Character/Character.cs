@@ -1,6 +1,5 @@
-using System;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
+using UnityEngine.AI;
 
 namespace GrzegorzGora.BaldurGate
 {
@@ -8,15 +7,33 @@ namespace GrzegorzGora.BaldurGate
 	{
 		[SerializeField] private GameObject selectedIndicator; 
 		[SerializeField] private CharacterData characterData;
+		private NavMeshAgent navMeshAgent;
 		public CharacterData CharacterData { get { return characterData; } set { if (characterData == null) characterData = value; } }
 		private bool canFollow = true;
 		public bool GetFollow => canFollow;
-		public bool IsSelected { get; private set; } 
+		private Vector3 followTarget;
+		public bool IsSelected { get; private set; }
 
-		private void OnEnable()
+		private void Start()
 		{
+			navMeshAgent = GetComponent<NavMeshAgent>();
 			InputManager.Instance.FollowClick += ChangeFollow;
 			selectedIndicator.SetActive(false);
+			navMeshAgent.speed = characterData.MoveSpeed;
+			navMeshAgent.angularSpeed = characterData.TurnSpeed;
+		}
+
+		private void Update()
+		{
+			Follow();
+		}
+
+		private void Follow()
+		{
+			if (canFollow && followTarget == null)
+			{
+				navMeshAgent.SetDestination(followTarget);
+			}
 		}
 
 		public void ChangeSelect(bool selected)
@@ -25,14 +42,14 @@ namespace GrzegorzGora.BaldurGate
 			IsSelected = selected;
 		}
 
-		public void Move(Vector2 position)
+		public void Move(Vector3 position)
 		{
-			throw new NotImplementedException();
+			navMeshAgent.SetDestination(position);
 		}
 
-		public void Follow(Character target)
+		public void SetFollowTarget(Character target)
 		{
-			throw new NotImplementedException();
+			followTarget = target.transform.position;
 		}
 
 		public void ChangeFollow()

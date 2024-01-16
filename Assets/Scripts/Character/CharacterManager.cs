@@ -7,6 +7,7 @@ namespace GrzegorzGora.BaldurGate
 	public class CharacterManager : PersistentSingleton<CharacterManager>, IDataPersistence
 	{
 		private List<Character> selectedCharacters = new();
+		public List<Character> SelectedCharacters { get { return selectedCharacters; } }
 		private List<Character> allCharacters = new();
 		private List<CharacterPortrait> charactersPortraits = new();
 		[Header("Characters Settings")]
