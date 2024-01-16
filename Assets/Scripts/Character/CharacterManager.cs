@@ -7,24 +7,16 @@ namespace GrzegorzGora.BaldurGate
 	public class CharacterManager : PersistentSingleton<CharacterManager>, IDataPersistence
 	{
 		private List<Character> selectedCharacters = new();
-		public List<Character> SelectedCharacters { get { return selectedCharacters; } }
+		public List<Character> SelectedCharacters {  get { return selectedCharacters; } }
 		private List<Character> allCharacters = new();
 		private List<CharacterPortrait> charactersPortraits = new();
 		[Header("Characters Settings")]
 		[SerializeField] private Character characterPrefab;
 		[SerializeField] private CharacterPortrait characterPortraitPrefab;
 		[SerializeField] private RectTransform characterPortraitContent;
-		[SerializeField] private CharacterData[] CharacterDatas;
+		[field:SerializeField] public CharacterData[] CharacterDatas { get; private set; }
 		[Header("Map Generator Ref")]
 		[SerializeField] private MapGenerator mapGenerator;
-
-		private void Start()
-		{
-			for (byte i = 0; i < (byte)Random.Range(1, CharacterDatas.Length + 1); i++)
-			{
-				CreateCharacters(CharacterDatas[i]);
-			}
-		}
 
 		private void OnDestroy()
 		{
@@ -64,6 +56,7 @@ namespace GrzegorzGora.BaldurGate
 		{
 			selectedCharacters.Add(character);
 			character.ChangeSelect(true);
+			character.ChangeFollow(false);
 			Debug.Log($"Selected:{character.CharacterData.name}");
 		}
 
@@ -71,6 +64,7 @@ namespace GrzegorzGora.BaldurGate
 		{
 			selectedCharacters.Remove(character);
 			character.ChangeSelect(false);
+			character.ChangeFollow(true);
 			Debug.Log($"Deselected:{character.CharacterData.name}");
 		}
 
@@ -83,7 +77,7 @@ namespace GrzegorzGora.BaldurGate
 			selectedCharacters.Clear();
 		}
 
-		private void DestroyAllCharacters()
+		public void DestroyAllCharacters()
 		{
 			foreach(var character in allCharacters)
 			{
@@ -116,12 +110,7 @@ namespace GrzegorzGora.BaldurGate
 
 		public void LoadGame(GameData gameData)
 		{
-			CharacterData[] _characterDatas = gameData.CharacterDatas.ToArray();
-			if (_characterDatas.IsNullOrEmpty()) return;
-			mapGenerator.ClearMap();
-			mapGenerator.InitializeMapGrid();
-			DestroyAllCharacters();
-			CreateCharacters(_characterDatas);
+			return;
 		}
 		#endregion
 	}

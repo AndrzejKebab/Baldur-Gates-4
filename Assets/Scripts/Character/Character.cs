@@ -11,13 +11,12 @@ namespace GrzegorzGora.BaldurGate
 		public CharacterData CharacterData { get { return characterData; } set { if (characterData == null) characterData = value; } }
 		private bool canFollow = true;
 		public bool GetFollow => canFollow;
-		private Vector3 followTarget;
+		private Character followTarget;
 		public bool IsSelected { get; private set; }
 
 		private void Start()
 		{
 			navMeshAgent = GetComponent<NavMeshAgent>();
-			InputManager.Instance.FollowClick += ChangeFollow;
 			selectedIndicator.SetActive(false);
 			navMeshAgent.speed = characterData.MoveSpeed;
 			navMeshAgent.angularSpeed = characterData.TurnSpeed;
@@ -30,9 +29,17 @@ namespace GrzegorzGora.BaldurGate
 
 		private void Follow()
 		{
-			if (canFollow && followTarget == null)
+			if(followTarget == null)
 			{
-				navMeshAgent.SetDestination(followTarget);
+				if (CharacterManager.Instance.SelectedCharacters.Count == 0) return;
+				Character _target = CharacterManager.Instance.SelectedCharacters[0];
+				if (_target == this) return;
+				followTarget = _target;
+			}
+
+			if (canFollow && !IsSelected)
+			{
+				Move(followTarget.transform.position);
 			}
 		}
 
@@ -49,12 +56,13 @@ namespace GrzegorzGora.BaldurGate
 
 		public void SetFollowTarget(Character target)
 		{
-			followTarget = target.transform.position;
+			if(target == this) return;
+			followTarget = target;
 		}
 
-		public void ChangeFollow()
+		public void ChangeFollow(bool canFollow)
 		{
-			canFollow ^= true;
+			this.canFollow = canFollow;
 		}
 
 	}

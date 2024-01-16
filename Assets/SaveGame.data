@@ -1,10 +1,10 @@
 {
-    "MapSize": 99,
-    "NoiseScale": 12.26194,
-    "NoiseMinimumThreshold": 0.443449,
+    "MapSize": 78,
+    "NoiseScale": 14.81151,
+    "NoiseMinimumThreshold": 0.3879635,
     "NoiseOffset": {
-        "x": -38,
-        "y": 49
+        "x": -23,
+        "y": -14
     },
     "CharacterDatas": [
         "GlobalObjectId_V1-3-5da41b92772feb941a61c51af3879d5b-11400000-0",

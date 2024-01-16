@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42b16023c28cb4f47998365a90bf8727, type: 3}
   m_Name: Character 1
   m_EditorClassIdentifier: 
-  Id: a83c2a3b-1f9d-46da-8127-ceb0373eb267
-  MoveSpeed: 8
-  TurnSpeed: 5
-  Stamina: 10
+  Id: 412165c1-84e0-414b-a789-22d7f496dc9d
+  MoveSpeed: 6.3962317
+  TurnSpeed: 99.159386
+  Stamina: 12.56953

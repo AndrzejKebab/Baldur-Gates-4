@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Unity.AI.Navigation;
 using Unity.Burst;
 using Unity.Mathematics;
@@ -26,7 +25,9 @@ namespace GrzegorzGora.BaldurGate
 		private NavMeshSurface navMeshSurface;
 		private bool[,] mapGrid;
 		public bool[,] MapGrid { get { return mapGrid; } }
-		private List<GameObject> mapObjects = new List<GameObject>();
+
+		public bool IsMapCleared {  get { return mapGrid == null; } }
+		public bool IsMapGenerated { get; private set; }
 
 		private void Awake()
 		{
@@ -35,7 +36,6 @@ namespace GrzegorzGora.BaldurGate
 			noiseScale = Random.Range(10f, 20f);
 			noiseMinimumThreshold = Random.Range(0.15f, 0.5f);
 			noiseOffset = new Vector2(Random.Range(-50, 50), Random.Range(-50, 50));
-			InitializeMapGrid();
 		}
 
 		public void InitializeMapGrid()
@@ -55,11 +55,13 @@ namespace GrzegorzGora.BaldurGate
 
 		private void GenerateMap()
 		{
-			GameObject _object;
+			content = new GameObject().GetComponent<Transform>();
+			content.SetParent(transform);
 			for (byte x = 0; x < mapSize; x++)
 			{
 				for (byte z = 0; z < mapSize; z++)
 				{					
+					GameObject _object;
 					if (mapGrid[x, z])
 					{
 						_object = Instantiate(wall, new Vector3(x, 0, z), Quaternion.identity, content);						
@@ -70,20 +72,22 @@ namespace GrzegorzGora.BaldurGate
 					}
 
 					_object.name = $"X: {x}, Z: {z}";
-					mapObjects.Add(_object);
 				}
 			}
+			IsMapGenerated = true;
+		}
+
+		public void BuildNavMesh()
+		{
 			navMeshSurface.BuildNavMesh();
 		}
 
 		public void ClearMap()
 		{
+			navMeshSurface.RemoveData();
+			IsMapGenerated = false;
 			mapGrid = null;
-			foreach (var mapObject in mapObjects)
-			{
-				Destroy(mapObject);
-			}
-			mapObjects.Clear();
+			Destroy(content.gameObject);
 		}
 
 		[BurstCompile]

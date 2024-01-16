@@ -123,6 +123,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &23582671
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 23582672}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &23582672
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 23582671}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 9.858345, y: -29.30891, z: 7.8902693}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &53187103
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,7 +220,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be0646cfc090c9944ab4b447a39ca118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterManager: {fileID: 0}
+  characterManager: {fileID: 533064231}
+  floorLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!4 &198695019
 Transform:
   m_ObjectHideFlags: 0
@@ -732,7 +766,7 @@ MonoBehaviour:
   characterPortraitPrefab: {fileID: 8757876448889328116, guid: 96242f08bd5a2f546856bb524f0fbe06,
     type: 3}
   characterPortraitContent: {fileID: 515184966}
-  CharacterDatas:
+  <CharacterDatas>k__BackingField:
   - {fileID: 11400000, guid: 5da41b92772feb941a61c51af3879d5b, type: 2}
   - {fileID: 11400000, guid: 71bddb13e1852134299cf9693006dbc5, type: 2}
   - {fileID: 11400000, guid: 65eddc922bcf16b4d9dd371071675f10, type: 2}
@@ -967,7 +1001,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floor: {fileID: 1623382313429877031, guid: f59cfc9a49aaf294cb485ed84eb8bbb6, type: 3}
   wall: {fileID: 167322757726342132, guid: bd967f45ace77d34badec34d5c5789f8, type: 3}
-  content: {fileID: 0}
+  content: {fileID: 1733353252}
   mapSize: 50
   noiseScale: 15
   noiseMinimumThreshold: 0.25
@@ -1747,7 +1781,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1733353252}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1849,6 +1883,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 624416268}
+  - {fileID: 23582672}
   - {fileID: 198695019}
   - {fileID: 1516633207}
   - {fileID: 533064232}

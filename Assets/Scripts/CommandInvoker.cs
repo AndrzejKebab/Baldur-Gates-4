@@ -7,8 +7,9 @@ namespace GrzegorzGora.BaldurGate
 	{
 		public async Task ExecuteCommand(Queue<ICommand> commands)
 		{
-			foreach (var command in commands)
+			while (commands.Count > 0)
 			{
+				var command = commands.Dequeue();
 				await command.Execute();
 			}
 		}

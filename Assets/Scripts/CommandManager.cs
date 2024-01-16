@@ -9,8 +9,10 @@ namespace GrzegorzGora.BaldurGate
 		private bool isCommandExecuting;
 		private bool isCommandQueueEmpty => commandQueue.Count == 0;
 		private Queue<ICommand> commandQueue = new();
+		private CommandInvoker commandInvoker = new();
 		[SerializeField] private CharacterManager characterManager;
 		private Camera mainCamera;
+		[SerializeField] private LayerMask floorLayer;
 
 		private void Update()
 		{
@@ -29,11 +31,7 @@ namespace GrzegorzGora.BaldurGate
 		private async Task ExecuteCommand()
 		{
 			isCommandExecuting = true;
-			while (commandQueue.Count > 0)
-			{
-				var command = commandQueue.Dequeue();
-				await command.Execute();
-			}
+			await commandInvoker.ExecuteCommand(commandQueue);
 			isCommandExecuting = false;
 		}
 
@@ -42,7 +40,7 @@ namespace GrzegorzGora.BaldurGate
 			Ray _ray = mainCamera.ScreenPointToRay(InputManager.Instance.MousePos);
 			RaycastHit _hit;
 
-			if(Physics.Raycast(_ray, out _hit))
+			if(Physics.Raycast(_ray, out _hit, Mathf.Infinity, floorLayer))
 			{
 				Debug.Log("hit" + _hit.transform.position);
 				foreach(var character in characterManager.SelectedCharacters)
