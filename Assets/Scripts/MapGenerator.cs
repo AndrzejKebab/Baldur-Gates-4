@@ -85,9 +85,9 @@ namespace GrzegorzGora.BaldurGate
 		public void ClearMap()
 		{
 			navMeshSurface.RemoveData();
+			Destroy(content.gameObject);
 			IsMapGenerated = false;
 			mapGrid = null;
-			Destroy(content.gameObject);
 		}
 
 		[BurstCompile]

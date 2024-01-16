@@ -40,6 +40,7 @@ namespace GrzegorzGora.BaldurGate
 			if(mapGenerator.IsMapGenerated && !mapGenerator.IsMapCleared)
 			{
 				mapGenerator.BuildNavMesh();
+				characterManager.DestroyAllCharacters();
 				characterManager.CreateCharacters(characterDatas);
 				yield return null;
 			}
@@ -50,7 +51,6 @@ namespace GrzegorzGora.BaldurGate
 		{
 			CharacterData[] _characterDatas = gameData.CharacterDatas.ToArray();
 			mapGenerator.ClearMap();
-			characterManager.DestroyAllCharacters();
 			StartCoroutine(InitializeGame(_characterDatas));
 		}
 
@@ -58,6 +58,5 @@ namespace GrzegorzGora.BaldurGate
 		{
 			return;
 		}
-
 	}
 }
