@@ -9,7 +9,7 @@ namespace GrzegorzGora.BaldurGate
 		public float NoiseScale;
 		public float NoiseMinimumThreshold;
 		public Vector2 NoiseOffset;
-		public List<CharacterData> CharacterDatas;
+		public List<string> CharacterDatasID;
 
 		public GameData()
 		{
@@ -17,7 +17,7 @@ namespace GrzegorzGora.BaldurGate
 			NoiseScale = Random.Range(10f, 20f);
 			NoiseMinimumThreshold = Random.Range(0.15f, 0.5f);
 			NoiseOffset = new Vector2(Random.Range(-50, 50), Random.Range(-50, 50));
-			CharacterDatas = new List<CharacterData>();
+			CharacterDatasID = new List<string>();
 		}
 	}
 }

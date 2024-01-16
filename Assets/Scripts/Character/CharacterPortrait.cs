@@ -47,14 +47,12 @@ namespace GrzegorzGora.BaldurGate
 
 		private void OnCharacterSelected()
 		{
-			Debug.Log("Select Event: " + character.CharacterData.name );
 			CharacterSelect?.Invoke(character);
 			UpdatePortrait();
 		}
 
 		private void OnCharacterDeselected()
 		{
-			Debug.Log("Deselect Event: " + character.CharacterData.name);
 			CharacterDeselect?.Invoke(character);
 			UpdatePortrait();
 		}

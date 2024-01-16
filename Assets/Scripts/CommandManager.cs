@@ -42,7 +42,6 @@ namespace GrzegorzGora.BaldurGate
 
 			if(Physics.Raycast(_ray, out _hit, Mathf.Infinity, floorLayer))
 			{
-				Debug.Log("hit" + _hit.transform.position);
 				foreach(var character in characterManager.SelectedCharacters)
 				{
 					commandQueue.Enqueue(MoveCommand.CreateMove(character, _hit.point));

@@ -14,7 +14,7 @@ namespace GrzegorzGora.BaldurGate
 		private void Start()
 		{
 			List<CharacterData> _characterDatas = new();
-			for (byte i = 0; i < (byte)Random.Range(1, characterManager.CharacterDatas.Length + 1); i++)
+			for (byte i = 0; i < (byte)UnityEngine.Random.Range(1, characterManager.CharacterDatas.Length + 1); i++)
 			{
 				_characterDatas.Add(characterManager.CharacterDatas[i]);
 			}
@@ -49,9 +49,20 @@ namespace GrzegorzGora.BaldurGate
 
 		public void LoadGame(GameData gameData)
 		{
-			CharacterData[] _characterDatas = gameData.CharacterDatas.ToArray();
+			var _characterDataID = gameData.CharacterDatasID;
+			List<CharacterData> _characterDatas = new();
+			foreach (var characterID in _characterDataID)
+			{
+				for (var i = 0; i < characterManager.CharacterDatas.Length; i++)
+				{
+					if(characterManager.CharacterDatas[i].Id == characterID)
+					{
+						_characterDatas.Add(characterManager.CharacterDatas[i]);
+					}
+				}
+			}
 			mapGenerator.ClearMap();
-			StartCoroutine(InitializeGame(_characterDatas));
+			StartCoroutine(InitializeGame(_characterDatas.ToArray()));
 		}
 
 		public void SaveGame(GameData gameData)

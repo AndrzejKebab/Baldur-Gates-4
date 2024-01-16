@@ -6,10 +6,11 @@ namespace GrzegorzGora.BaldurGate
 {
 	public class CharacterManager : PersistentSingleton<CharacterManager>, IDataPersistence
 	{
-		private List<Character> selectedCharacters = new();
-		public List<Character> SelectedCharacters {  get { return selectedCharacters; } }
 		private List<Character> allCharacters = new();
 		private List<CharacterPortrait> charactersPortraits = new();
+		private List<Character> previouslySelectedCharacters;
+		private List<Character> selectedCharacters = new();
+		public List<Character> SelectedCharacters {  get { return selectedCharacters; } }
 		[Header("Characters Settings")]
 		[SerializeField] private Character characterPrefab;
 		[SerializeField] private CharacterPortrait characterPortraitPrefab;
@@ -17,6 +18,24 @@ namespace GrzegorzGora.BaldurGate
 		[field:SerializeField] public CharacterData[] CharacterDatas { get; private set; }
 		[Header("Map Generator Ref")]
 		[SerializeField] private MapGenerator mapGenerator;
+
+		private void Start()
+		{
+			previouslySelectedCharacters = new List<Character>(selectedCharacters);	
+		}
+
+		private void Update()
+		{			
+			if(previouslySelectedCharacters != selectedCharacters && !selectedCharacters.IsNullOrEmpty())
+			{
+				foreach(var character in allCharacters)
+				{
+					character.SetFollowTarget(selectedCharacters[0]);
+				}
+				previouslySelectedCharacters.Clear();
+				previouslySelectedCharacters.AddRange(selectedCharacters);
+			}
+		}
 
 		private void OnDestroy()
 		{
@@ -43,12 +62,14 @@ namespace GrzegorzGora.BaldurGate
 			{
 				Character _newCharacter = Instantiate(characterPrefab, _safeSpawnPlace, Quaternion.identity);
 				_newCharacter.CharacterData = characterData;
-				_newCharacter.name = characterData.name;
 				allCharacters.Add(_newCharacter);
 				CharacterPortrait _newCharacterPortrait = Instantiate(characterPortraitPrefab, characterPortraitContent.transform);
 				charactersPortraits.Add(_newCharacterPortrait);
 				_newCharacterPortrait.AssignCharacter(_newCharacter, SelectCharacter, DeselectCharacter);
+#if UNITY_EDITOR
+				_newCharacter.name = characterData.name;
 				_newCharacterPortrait.name = $"{characterData.name} Portrait";
+#endif
 			}
 		}
 
@@ -99,12 +120,12 @@ namespace GrzegorzGora.BaldurGate
 		{
 			foreach (var character in allCharacters)
 			{
-				var _characterData = character.CharacterData;
-				if (gameData.CharacterDatas.Contains(_characterData))
+				var _characterData = character.CharacterData.Id;
+				if (gameData.CharacterDatasID.Contains(_characterData))
 				{
-					gameData.CharacterDatas.Remove(_characterData);
+					gameData.CharacterDatasID.Remove(_characterData);
 				}
-				gameData.CharacterDatas.Add(_characterData);
+				gameData.CharacterDatasID.Add(_characterData);
 			}
 		}
 

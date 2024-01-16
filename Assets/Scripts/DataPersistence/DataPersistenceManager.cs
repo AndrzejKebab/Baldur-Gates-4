@@ -13,7 +13,7 @@ namespace GrzegorzGora.BaldurGate
 		private GameData gameData;
 		public List<IDataPersistence> dataPersistencesObjects;
 		private FileDataHandler fileDataHandler;
-
+#if UNITY_EDITOR
 		[ContextMenu("SAVE")]
 		public void TestSave()
 		{
@@ -25,10 +25,10 @@ namespace GrzegorzGora.BaldurGate
 		{
 			LoadGame();
 		}
-
+#endif
 		protected override void Awake()
 		{
-			fileDataHandler = new FileDataHandler(Application.dataPath, fileName);
+			fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
 			gameData = new GameData();
 		}
 
